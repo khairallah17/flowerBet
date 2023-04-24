@@ -15,6 +15,8 @@ import Deposit from './pages/Deposit'
 import PrivateRoute from './components/Private/PrivateRoute'
 import BetHistory from './pages/BetHistory'
 import ResetPassword from './pages/ResetPassword'
+import Withdrawl from './pages/Withdrawl'
+import Payment from './pages/Payment'
 
 function App() {
 
@@ -30,11 +32,13 @@ function App() {
           <Route path='casino' element={<CommingSoon/>} />
           <Route path="signup" element={<Register/>}  />
           <Route path="login" element={<Login/>} />
-          <Route path="deposit" element={<Deposit/>} />
           <Route path="ResetPassword" element={<ResetPassword/>} />
           
           <Route element={<PrivateRoute/>}>
+            <Route path="deposit" element={<Deposit/>} /> 
             <Route element={<BetHistory/>} path="/betHistory" exact/>
+            <Route path="withdrawl" element={<Withdrawl/>} />
+            <Route path="Payment" element={<Payment/>} />
           </Route>
 
         </Routes>

@@ -27,7 +27,7 @@ const Deposit = () => {
             <input className='text-black outline-none p-2' type="number" name="deposit" id="" value={deposit} onChange={(e) => setDeposit(e.target.value)} />
             <p className='text-red-500 font-bold capitalize'>{error}</p>
             <p className='font-light capitalize'>Minimum deposit amount is 100</p>
-            <Link onClick={handleSubmitDeposit} className='p-2 px-8 bg-yellow-500 hover:bg-yellow-400 duration-200 w-fit'>Deposit</Link>
+            <Link to="/payment" onClick={handleSubmitDeposit} className='p-2 px-8 bg-yellow-500 hover:bg-yellow-400 duration-200 w-fit'>Deposit</Link>
         </div>
     </Layout>
   )
