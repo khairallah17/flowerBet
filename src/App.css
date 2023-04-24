@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities; 
+
+@layer base{
+    .active-navigation {
+        @apply bg-secondary;
+    }
+
+    body{
+        @apply bg-primary;
+        @apply text-white;
+    }
+
+    .shape{
+        clip-path: polygon(100.38% 4.17%, 100% 100%, 0.00% 102.09%, 21px 0%);
+    }
+}
