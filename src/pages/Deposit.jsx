@@ -14,9 +14,8 @@ const Deposit = () => {
         if (deposit < 100)
             setError("please enter a valid deposit")
         else{
-
             console.log("here")
-            navigate("/sports")
+            navigate("/payment")
         }
     }
 
@@ -27,7 +26,7 @@ const Deposit = () => {
             <input className='text-black outline-none p-2' type="number" name="deposit" id="" value={deposit} onChange={(e) => setDeposit(e.target.value)} />
             <p className='text-red-500 font-bold capitalize'>{error}</p>
             <p className='font-light capitalize'>Minimum deposit amount is 100</p>
-            <Link to="/payment" onClick={handleSubmitDeposit} className='p-2 px-8 bg-yellow-500 hover:bg-yellow-400 duration-200 w-fit'>Deposit</Link>
+            <Link onClick={handleSubmitDeposit} className='p-2 px-8 bg-yellow-500 hover:bg-yellow-400 duration-200 w-fit'>Deposit</Link>
         </div>
     </Layout>
   )
