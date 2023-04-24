@@ -56,10 +56,16 @@ const SportsBet = () => {
 
         <div className="container mx-auto my-5">
           
-          <h1 className='capitalize flex items-center gap-3 text-xl md:justify-start justify-center md:mb-0 mb-4'>
-            <ChartBarSquareIcon className="h-8 w-8 text-white" />
-            match odds
-          </h1>
+          <div className='capitalize flex items-center gap-3 text-xl md:justify-between w-full mb-5 justify-between'>
+            <div className="mtch-odds flex gap-3 items-center">
+              <ChartBarSquareIcon className="h-8 w-8 text-white" />
+              match odds
+            </div>
+            <div className="map flex gap-3">
+              <div className="bg-green-500 text-center p-2 w-[70px]">Back</div>
+              <div className="bg-red-500 text-center p-2 w-[50px]">Lay</div>
+            </div>
+          </div>
 
           <div className="bet-details flex flex-col gap-3 mb-4">
 
@@ -70,18 +76,23 @@ const SportsBet = () => {
                 }
               </p>
 
-              <div className="bet-home-prices flex flex-wrap flex-grow">
+              <div className="bet-home-prices flex flex-wrap flex-grow justify-end">
                 <ul className='flex items-center gap-3 flex-wrap justify-center'>
-                  {
-                    betData[0].bookmakers.map(({ markets }) => 
+                {
+                    betData[0].bookmakers.map(({ markets }, key) => 
                       markets.map(({ outcomes }) => 
-                        outcomes.map(({name, price}, key) => {
+                        outcomes.map(({name, price}) => {
+                          console.log(Math.round(betData[0].bookmakers.length/2))
                           if (name == betData[0].home_team)
+                          {
+                            
+                            console.log("key ==> ", key)
                             return (
-                              <li onClick={handleBetClick} className='cursor-pointer w-12 h-12 flex justify-center items-center bg-secondary' key={key}>
+                              <li key={key} onClick={handleBetClick1} className={`${Math.round(betData[0].bookmakers.length/2) == key? "!bg-red-500" : ""} ${Math.round(markets.length/2) + 2 == key ? "!bg-green-500" : "bg-secondary"} cursor-pointer w-12 h-12 flex justify-center items-center `}>
                                 <Link>{price}</Link>
                               </li>
                             )
+                          }
                         })
                       )
                     )
@@ -149,18 +160,23 @@ const SportsBet = () => {
                 }
               </p>
 
-              <div className="bet-home-prices flex flex-wrap flex-grow">
+              <div className="bet-home-prices flex flex-wrap flex-grow justify-end">
                 <ul className='flex items-center gap-3 flex-wrap justify-center'>
                   {
-                    betData[0].bookmakers.map(({ markets }) => 
+                    betData[0].bookmakers.map(({ markets }, key) => 
                       markets.map(({ outcomes }) => 
-                        outcomes.map(({name, price}, key) => {
+                        outcomes.map(({name, price}) => {
+                          console.log(Math.round(betData[0].bookmakers.length/2))
                           if (name == betData[0].away_team)
+                          {
+                            
+                            console.log("key ==> ", key)
                             return (
-                              <li key={key} onClick={handleBetClick1} className='cursor-pointer w-12 h-12 flex justify-center items-center bg-secondary'>
+                              <li key={key} onClick={handleBetClick1} className={`${Math.round(betData[0].bookmakers.length/2) == key? "!bg-red-500" : ""} ${Math.round(markets.length/2) + 2 == key ? "!bg-green-500" : "bg-secondary"} cursor-pointer w-12 h-12 flex justify-center items-center `}>
                                 <Link>{price}</Link>
                               </li>
                             )
+                          }
                         })
                       )
                     )

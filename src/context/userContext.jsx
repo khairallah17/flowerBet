@@ -14,6 +14,7 @@ export const UserProvider = ({ children }) => {
 
   const [currentUser, setCurrentUser] = useState()
   const [loading, setLoading] = useState(true)
+  const [payDeposite, setPaydeposit] = useState(0)
 
   const register = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password)
@@ -47,6 +48,18 @@ export const UserProvider = ({ children }) => {
     }
   }
 
+  // const UpdateDeposit = async () => {
+  //   const docRef = doc(db, 'users', currentUser.email)
+
+  //   try{
+
+      // await setDoc(docRef,)
+
+  //   } catch (err) {
+  //     console.log(err.message)
+  //   }
+  // }
+
   const newBet = async (email) => {
     const docRef = doc(db, 'users', email)
     
@@ -79,7 +92,8 @@ export const UserProvider = ({ children }) => {
     logout,
     resetPassword,
     getUserDetails,
-    newBet
+    newBet,
+    setPaydeposit
   }
 
   return (

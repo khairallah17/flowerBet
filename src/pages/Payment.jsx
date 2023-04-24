@@ -3,14 +3,17 @@ import Layout from '../components/layout/Layout'
 import BankTransfer from "../assets/banknew.png"
 import PhonePe from "../assets/phonepay.png"
 import Paytm from "../assets/paytm.png" 
+import { useNavigate } from 'react-router-dom'
 
 const Payment = () => {
+
+    const navigate = useNavigate()
 
     const[show, setShow] = useState(false)
     const[image, setImage] = useState()
 
     const handleReceiptSubmit = () => {
-
+        navigate("/")
     }
 
   return (
@@ -34,7 +37,7 @@ const Payment = () => {
                         <label htmlFor="upload receipt" className='font-bold'>transaction image: </label>
                         <input type="file" name="upload receipt" id="" />
                     </div>
-                    <button>submit</button>
+                    <button className='bg-secondary text-white p-2 px-4 rounded-lg mt-2'>submit</button>
                 </form>
             </div>
         </div>

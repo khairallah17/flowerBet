@@ -42,10 +42,10 @@ const Sports = () => {
   return (
     <Layout>
         <div className="sports-navigation my-10 bg-white text-black flex-wrap">
-            <ul className='container mx-auto flex w-full items-center justify-between'>
+            <ul className='container mx-auto flex w-full items-center justify-between flex-wrap'>
             {
               sports.map(({name, image}, key) => (
-                <li key={key} className={`${activeSport == name ? "bg-primary text-white" : ""} cursor-pointer flex gap-2 py-5 items-center w-1/5 justify-center duration-200 capitalize hover:text-white hover:bg-primary  `} onClick={(e) => setActiveSearch(e)}>
+                <li key={key} className={`${activeSport == name ? "bg-primary text-white" : ""} cursor-pointer flex gap-2 py-5 w-full items-center justify-center duration-200 capitalize hover:text-white hover:bg-primary  `} onClick={(e) => setActiveSearch(e)}>
                   <img src={image} alt="" className='w-6 h-6' />
                   {name}
                 </li>   
@@ -66,21 +66,21 @@ const Sports = () => {
                   
                   <div className="bet-title flex items-center gap-3 w-full justify-between">
 
-                    <div className="flex items-center gap-4 w-1/4">
+                    <div className="flex items-center gap-4 md:w-1/4">
 
                       <img src={ activeimg } className="w-6 h-6" alt="" />
                       
                       <div className="bet-text">
-                        <h1>{ dt.home_team } vs { dt.away_team }</h1>
-                        <span>
+                        <h1 className='text-center md:text-left'>{ dt.home_team } vs { dt.away_team }</h1>
+                        <span className='hidden md:block'>
                          League: { dt.sport_title.split("- ").join(" ") }
                         </span>
                       </div> 
 
                     </div>
 
-                    <div className="bet-price flex gap-4 w-1/2 flex-grow items-center justify-center">
-                      <div className="bet-prices-container flex justify-between w-96">
+                    <div className="bet-price flex gap-4 md:w-1/2 flex-grow items-center justify-center">
+                      <div className="bet-prices-container flex justify-center md:justify-between flex-wrap items-center md:w-96">
                       {
                         dt.bookmakers[0].markets[0].outcomes.map(({ price }, key) => {
                           if (!key)
