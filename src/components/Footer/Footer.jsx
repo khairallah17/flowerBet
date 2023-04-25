@@ -17,7 +17,7 @@ const footerNav = ["privacy policy","rules and regulations","terms and condition
 
 const Footer = () => {
   return (
-    <div className='flex flex-wrap p-10 text-center md:text-left bg-primary-light border-t-2'>
+    <div className='flex flex-wrap p-10 text-center md:text-left bg-primary-light border-t-2 mt-auto'>
 
         <div className="footer1 flex flex-col gap-5 w-full md:w-1/3">
 

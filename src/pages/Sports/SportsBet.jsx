@@ -27,6 +27,8 @@ const SportsBet = () => {
     else
       setPrice(e.target.firstChild.nodeValue)
     setShow(true)
+    if (show1)
+      setShow1(false)
   }
 
   const handleBetClick1 = (e) => {
@@ -35,7 +37,9 @@ const SportsBet = () => {
     else
       setPrice1(e.target.firstChild.nodeValue)
     setShow1(true)
-  }
+    if (show)
+      setShow(false)
+  } 
 
   return (
     <Layout>
@@ -88,7 +92,7 @@ const SportsBet = () => {
                             
                             console.log("key ==> ", key)
                             return (
-                              <li key={key} onClick={handleBetClick1} className={`${Math.round(betData[0].bookmakers.length/2) == key? "!bg-red-500" : ""} ${Math.round(markets.length/2) + 2 == key ? "!bg-green-500" : "bg-secondary"} cursor-pointer w-12 h-12 flex justify-center items-center `}>
+                              <li key={key} onClick={handleBetClick} className={`${Math.round(betData[0].bookmakers.length/2) == key? "!bg-red-500" : ""} ${Math.round(markets.length/2) + 2 == key ? "!bg-green-500" : "bg-secondary"} cursor-pointer w-12 h-12 flex justify-center items-center `}>
                                 <Link>{price}</Link>
                               </li>
                             )
@@ -129,7 +133,7 @@ const SportsBet = () => {
                         <div className="flex-wrap text-center prices-box flex gap-4">
                           {
 
-                            prices1.map(price => (
+                            prices2.map(price => (
                               <div onClick={(e) => setDeposit(e.target.innerHTML)} className="cursor-pointer w-full p-2 bg-secondary price">
                                   {price}
                               </div>
@@ -169,8 +173,6 @@ const SportsBet = () => {
                           console.log(Math.round(betData[0].bookmakers.length/2))
                           if (name == betData[0].away_team)
                           {
-                            
-                            console.log("key ==> ", key)
                             return (
                               <li key={key} onClick={handleBetClick1} className={`${Math.round(betData[0].bookmakers.length/2) == key? "!bg-red-500" : ""} ${Math.round(markets.length/2) + 2 == key ? "!bg-green-500" : "bg-secondary"} cursor-pointer w-12 h-12 flex justify-center items-center `}>
                                 <Link>{price}</Link>
@@ -187,7 +189,7 @@ const SportsBet = () => {
             </div>
 
             <div className={`place-bet md:flex-row items-center gap-3 flex-col w-full justify-between bg-slate-800 p-5 duration-200 ${show1 ? "flex" : "hidden"}`}>
-                  <h1 className='w-1/3'>{ betData[0].home_team }</h1>
+                  <h1 className='w-1/3'>{ betData[0].away_team }</h1>
 
                   <div className="home-bet flex-1 flex flex-col gap-4 justify-center">
 

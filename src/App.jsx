@@ -17,6 +17,7 @@ import BetHistory from './pages/BetHistory'
 import ResetPassword from './pages/ResetPassword'
 import Withdrawl from './pages/Withdrawl'
 import Payment from './pages/Payment'
+import ThankYouPage from './pages/ThankYouPage'
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
           <Route path="signup" element={<Register/>}  />
           <Route path="login" element={<Login/>} />
           <Route path="ResetPassword" element={<ResetPassword/>} />
+          <Route path="ThankYouPage" element={<ThankYouPage/>} />
           
           <Route element={<PrivateRoute/>}>
             <Route path="deposit" element={<Deposit/>} /> 

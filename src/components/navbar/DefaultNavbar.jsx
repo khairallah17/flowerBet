@@ -11,13 +11,14 @@ const navigation = ["home","sports","Roulette","casino","teen patti"]
 
 const DefaultNavbar = () => {
 
-  const { getUserDetails, currentUser } = userContextHook()
+  const { getUserDetails, currentUser, setId } = userContextHook()
   const [dbData, setDbData] = useState([])
 
   useEffect(() => {
     const fetch = async () => {
       const d = await getUserDetails(currentUser.email)
       setDbData(d[0].data)
+      setId(d[0].id)
     }
   
     fetch()
@@ -53,7 +54,7 @@ const DefaultNavbar = () => {
 
             <div className={`mobile-menu-overlay fixed z-20 h-screen ${openNav ? "top-0" : "top-[-1000px]"} left-0 w-full bg-primary duration-300`}>
               <ul className='flex flex-col items-center justify-around text-3xl h-full'>
-                <li className='border-b pb-10 w-full text-center flex justify-between items-center mx-auto px-24'>
+                <li className='border-b pb-10 w-full text-center flex justify-between items-center mx-auto px-10 md:px-24'>
                   Navigation Menu
                   <XMarkIcon className="h-10 w-10 text-white cursor-pointer" onClick={() => setOpenNav(false)} />
                 </li>
