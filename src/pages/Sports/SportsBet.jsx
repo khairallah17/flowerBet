@@ -84,7 +84,7 @@ const SportsBet = () => {
       const id = await data[0].id
 
       if (response.deposit < deposit)
-        toast.error("you do not have much money to bet :(")
+        toast.error("you do not have much stake to bet :(")
 
     } catch (err) {
       console.log("EOROROROR ==> ",err.message)
