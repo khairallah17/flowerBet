@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '../../components/layout/Layout'
 import { useParams } from 'react-router-dom'
 import { data } from '../../components/data'
@@ -35,9 +35,9 @@ const SportsBet = () => {
 
   const calculateOdd = (e, prc) => {
 
-    setDeposit(e.target.innerText)
+    setDeposit(e)
 
-    const result = (parseFloat(prc) * parseInt(e.target.innerText)) - e.target.innerText
+    const result = (parseFloat(prc) * parseInt(e)) - e
 
     setOdd(result)
 
@@ -45,13 +45,20 @@ const SportsBet = () => {
 
   const calculateOdd1 = (e, prc) => {
 
-    setDeposit1(e.target.innerText)
+    setDeposit1(e)
 
-    const result = (parseFloat(prc) * parseInt(e.target.innerText)) - e.target.innerText
+    const result = (parseFloat(prc) * parseInt(e)) - e
 
     setOdd1(result)
 
   }
+
+  useEffect(() => {
+
+    calculateOdd(deposit, price)
+    calculateOdd1(deposit1, price1)
+
+  },[deposit, deposit1])
 
   const handleBetClick1 = (e) => {
     if (e.target.localName == "li")
@@ -101,7 +108,7 @@ const SportsBet = () => {
                   betData[0].home_team
                 }
               </p>
-              <h1 className="odd">To win: <span className='text-green-500 font-bold'>{odd}</span></h1>
+              <h1 className="odd">To win: <span className='text-green-500 font-bold'>{!odd ? 0 : odd}</span></h1>
 
               <div className="bet-home-prices flex flex-wrap flex-grow justify-end">
                 <ul className='flex items-center gap-3 flex-wrap justify-center'>
@@ -139,7 +146,7 @@ const SportsBet = () => {
                           {
 
                             prices1.map(prc => (
-                              <div onClick={(e) => calculateOdd(e, price)} className="cursor-pointer w-full p-2 bg-secondary price">
+                              <div onClick={(e) => calculateOdd(e.target.innerText, price)} className="cursor-pointer w-full p-2 bg-secondary price">
                                   {prc}
                               </div>
                             ))
@@ -155,7 +162,7 @@ const SportsBet = () => {
                           {
 
                             prices2.map(prc => (
-                              <div onClick={(e) => calculateOdd(e, price)} className="cursor-pointer w-full p-2 bg-secondary price">
+                              <div onClick={(e) => calculateOdd(e.target.innerText, price)} className="cursor-pointer w-full p-2 bg-secondary price">
                                   {prc}
                               </div>
                             ))
@@ -185,7 +192,7 @@ const SportsBet = () => {
                 }
               </p>
 
-              <p>To Win: <span className='font-bold text-green-500'>{odd1}</span></p>
+              <p>To Win: <span className='font-bold text-green-500'>{!odd1 ? 0 : odd1}</span></p>
 
               <div className="bet-home-prices flex flex-wrap flex-grow justify-end">
                 <ul className='flex items-center gap-3 flex-wrap justify-center'>
@@ -215,8 +222,6 @@ const SportsBet = () => {
             <div className={`place-bet md:flex-row items-center gap-3 flex-col w-full justify-between bg-slate-800 p-5 duration-200 ${show1 ? "flex" : "hidden"}`}>
                   <h1 className='w-1/3'>{ betData[0].away_team }</h1>
 
-                  <p><span>{odd1}</span></p>
-
                   <div className="home-bet flex-1 flex flex-col gap-4 justify-center">
 
                     <div className="bet-details flex-wrap flex gap-4 justify-around">
@@ -226,7 +231,7 @@ const SportsBet = () => {
                           {
 
                             prices1.map((prc, key) => (
-                              <div onClick={(e) => calculateOdd1(e, price1)} key={key} className="cursor-pointer w-full p-2 bg-secondary price">
+                              <div onClick={(e) => calculateOdd1(e.target.innerText, price1)} key={key} className="cursor-pointer w-full p-2 bg-secondary price">
                                   {prc}
                               </div>
                             ))
@@ -242,7 +247,7 @@ const SportsBet = () => {
                           {
 
                             prices1.map((prc, key) => (
-                              <div key={key} onClick={(e) => calculateOdd1(e, price1)} className="cursor-pointer w-full p-2 bg-secondary price">
+                              <div key={key} onClick={(e) => calculateOdd1(e.target.innerText, price1)} className="cursor-pointer w-full p-2 bg-secondary price">
                                   {prc}
                               </div>
                             ))

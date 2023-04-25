@@ -60,7 +60,7 @@ const Home = () => {
         
         <div className="card relative w-full border-b-4 border-yellow-500 mb-5">
           <img src={LiveSports} alt="" className='w-full' />
-          <Link to="/sports" className="absolute bottom-0 p-3 px-5 bg-gradient-to-r h-full flex items-center justify-center text-5xl md:text-7xl font-bold from-black to-[rgba(0,0,0,.3)] w-full duration-200 hover:text-yellow-500">Live Sports</Link>
+          <Link to="/sports" className="absolute bottom-0 p-3 px-5 bg-gradient-to-r h-full flex items-center justify-center text-3xl sm:text-5xl md:text-7xl font-bold from-black to-[rgba(0,0,0,.3)] w-full duration-200 hover:text-yellow-500">Live Sports</Link>
           <Link to="/sports" className="absolute bottom-0 p-3 px-5 right-0 shape bg-yellow-500 w-40 text-center">Play Now</Link>
         </div>
 
@@ -68,13 +68,13 @@ const Home = () => {
 
           <div className="card relative border-b-4 border-yellow-500 w-1/2">
             <img src={tennis} alt="" className=' w-full' />
-            <Link to="/sports" className="absolute bottom-0 p-3 px-5 bg-gradient-to-r h-full flex items-center justify-center text-5xl md:text-7xl font-bold from-black to-[rgba(0,0,0,.3)] w-full duration-200 hover:text-yellow-500">Tennis</Link>
+            <Link to="/sports" className="absolute bottom-0 p-3 px-5 bg-gradient-to-r h-full flex items-center justify-center text-3xl sm:text-5xl md:text-7xl font-bold from-black to-[rgba(0,0,0,.3)] w-full duration-200 hover:text-yellow-500">Tennis</Link>
             <Link to="/sports" className="absolute bottom-0 p-3 px-5 right-0 shape bg-yellow-500 w-40 text-center">Play Now</Link>
           </div>
 
           <div className="card relative border-b-4 border-yellow-500 w-1/2">
             <img src={soccer} alt="" className=' w-full' />
-            <Link to="/sports" className="absolute bottom-0 p-3 px-5 bg-gradient-to-r h-full flex items-center justify-center text-5xl md:text-7xl font-bold from-black to-[rgba(0,0,0,.3)] w-full duration-200 hover:text-yellow-500">Soccer</Link>
+            <Link to="/sports" className="absolute bottom-0 p-3 px-5 bg-gradient-to-r h-full flex items-center justify-center text-3xl sm:text-5xl md:text-7xl font-bold from-black to-[rgba(0,0,0,.3)] w-full duration-200 hover:text-yellow-500">Soccer</Link>
             <Link to="/sports" className="absolute bottom-0 p-3 px-5 right-0 shape bg-yellow-500 w-40 text-center">Play Now</Link>
           </div>
 
@@ -82,7 +82,7 @@ const Home = () => {
 
         <div className="card relative w-full border-b-4 border-yellow-500 mb-5">
           <img src={LiveCasino} alt="" className='w-full' />
-          <Link to="/casino" className="absolute bottom-0 p-3 px-5 bg-gradient-to-r h-full flex items-center justify-center text-5xl md:text-7xl font-bold from-black to-[rgba(0,0,0,.3)] w-full duration-200 hover:text-yellow-500">Live Casino</Link>
+          <Link to="/casino" className="absolute bottom-0 p-3 px-5 bg-gradient-to-r h-full flex items-center justify-center text-3xl sm:text-5xl md:text-7xl font-bold from-black to-[rgba(0,0,0,.3)] w-full duration-200 hover:text-yellow-500">Live Casino</Link>
           <Link to="/casino" className="absolute bottom-0 p-3 px-5 right-0 shape bg-yellow-500 w-40 text-center">Play Now</Link>
         </div>
 
@@ -90,13 +90,13 @@ const Home = () => {
 
           <div className="card relative border-b-4 border-yellow-500 w-1/2">
             <img src={Cricket} alt="" className=' w-full' />
-            <Link to="/sports" className="absolute bottom-0 p-3 px-5 bg-gradient-to-r h-full flex items-center justify-center text-5xl md:text-7xl font-bold from-black to-[rgba(0,0,0,.3)] w-full duration-200 hover:text-yellow-500">Cricket</Link>
+            <Link to="/sports" className="absolute bottom-0 p-3 px-5 bg-gradient-to-r h-full flex items-center justify-center text-3xl sm:text-5xl md:text-7xl font-bold from-black to-[rgba(0,0,0,.3)] w-full duration-200 hover:text-yellow-500">Cricket</Link>
             <Link to="/sports" className="absolute bottom-0 p-3 px-5 right-0 shape bg-yellow-500 w-40 text-center">Play Now</Link>
           </div>
 
           <div className="card relative border-b-4 border-yellow-500 w-1/2">
             <img src={Roulette} alt="" className=' w-full' />
-            <Link to="/roulette" className="absolute bottom-0 p-3 px-5 bg-gradient-to-r h-full flex items-center justify-center text-5xl md:text-7xl font-bold from-black to-[rgba(0,0,0,.3)] w-full duration-200 hover:text-yellow-500">Roulette</Link>
+            <Link to="/roulette" className="absolute bottom-0 p-3 px-5 bg-gradient-to-r h-full flex items-center justify-center text-3xl sm:text-5xl md:text-7xl font-bold from-black to-[rgba(0,0,0,.3)] w-full duration-200 hover:text-yellow-500">Roulette</Link>
             <Link to="/roulette" className="absolute bottom-0 p-3 px-5 right-0 shape bg-yellow-500 w-40 text-center">Play Now</Link>
           </div>
 
