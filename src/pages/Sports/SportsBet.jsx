@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom'
 import { data } from '../../components/data'
 import { Link } from 'react-router-dom'
 import { ChartBarSquareIcon } from "@heroicons/react/24/outline";
+import userContextHook from '../../hooks/userContextHook'
+import toast, { Toaster } from 'react-hot-toast'
 
 const SportsBet = () => {
 
@@ -22,6 +24,9 @@ const SportsBet = () => {
   const [deposit1, setDeposit1] = useState("")
   const [odd, setOdd] = useState(0)
   const [odd1, setOdd1] = useState(0)
+  const [error, seterror] = useState(false)
+
+  const { getUserDetails } = userContextHook()
 
   const handleBetClick = (e) => {
     if (e.target.localName == "li")
@@ -70,9 +75,29 @@ const SportsBet = () => {
       setShow(false)
   } 
 
+  const handlePlaceBet = async () => {
+
+    try {
+      
+      const data = await getUserDetails()
+      const response = await data[0].data
+      const id = await data[0].id
+
+      if (response.deposit < deposit)
+        toast.error("you do not have much money to bet :(")
+
+    } catch (err) {
+      console.log("EOROROROR ==> ",err.message)
+    }
+
+  }
+
   return (
     <Layout>
-
+        <Toaster
+          position="top-center"
+          reverseOrder={false}
+        />
         <div className="bet-content-title bg-white text-black ">
           <h1 className='container mx-auto py-5 font-bold text-2xl md:text-4xl'>{ betData[0].home_team } vs { betData[0].away_team }</h1>
           <div className="content-links bg-primary text-white my-3">
@@ -174,7 +199,7 @@ const SportsBet = () => {
 
                     <div className="bet-buttons justify-around flex gap-4">
                       <Link onClick={() => setShow(false)} className='uppercase bg-yellow-500 p-2 px-8'>cancel bet</Link>
-                      <Link  className='uppercase bg-blue-500 p-2 px-8'>place bet</Link>
+                      <button onClick={handlePlaceBet} className='uppercase bg-blue-500 p-2 px-8'>place bet</button>
                     </div>
 
                   </div>
