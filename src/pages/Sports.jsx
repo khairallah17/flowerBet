@@ -45,7 +45,7 @@ const Sports = () => {
             <ul className='container mx-auto flex w-full items-center justify-between flex-wrap'>
             {
               sports.map(({name, image}, key) => (
-                <li key={key} className={`${activeSport == name ? "bg-primary text-white" : ""} cursor-pointer flex gap-2 py-5 w-full items-center justify-center duration-200 capitalize hover:text-white hover:bg-primary  `} onClick={(e) => setActiveSearch(e)}>
+                <li key={key} className={`${activeSport == name ? "bg-primary text-white" : ""} cursor-pointer flex gap-2 py-5 w-full md:w-1/5 items-center justify-center duration-200 capitalize hover:text-white hover:bg-primary  `} onClick={(e) => setActiveSearch(e)}>
                   <img src={image} alt="" className='w-6 h-6' />
                   {name}
                 </li>   
@@ -90,18 +90,12 @@ const Sports = () => {
                               </div>
                             )
 
-                          if (key == 2)
+                          if (key == 1)
                               return (
                                 <div key={key} className="bet-price w-28 text-center bg-red-500 p-2 px-4">
                                   {price}
                                 </div>
                               )
-
-                          return (
-                            <div key={key} className="bet-price w-28 text-center bg-yellow-500 p-2 px-4">
-                              {price}
-                            </div>
-                          )
                         })
                       }
                       </div>
