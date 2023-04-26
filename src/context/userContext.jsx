@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword, sendPasswordResetEmail, signOut } from 
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import { auth, db, storage } from '../config/firebase'
-import { collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from 'firebase/firestore'
+import { collection, doc, Firestore, getDoc, getDocs, query, setDoc, updateDoc, where } from 'firebase/firestore'
 import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'
 
 const UserContext = createContext({})
@@ -19,7 +19,29 @@ export const UserProvider = ({ children }) => {
   const [addDeposit, setAddDeposit] = useState(0)
   const [id, setId] = useState("")
 
-  const register = (email, password) => {
+  const register = async (email, password) => {
+
+    const userRef = doc(`users/${currentUser.uid}`)
+
+    const snapShot = await userRef.get()
+
+    if (!snapShot.exist){
+
+      try {
+        
+        userRef.set({
+          email,
+          deposit: 0,
+          withdrawl: 0,
+          betHistory: [],
+        })
+
+      } catch (err) {
+        console.log("ERROR ==> ",err.message)
+      }
+
+    }
+
     return createUserWithEmailAndPassword(auth, email, password)
   }
 

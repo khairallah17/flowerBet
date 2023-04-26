@@ -39,7 +39,7 @@ const SignUp = () => {
       <div className="container mx-auto w-screen h-[51vh] flex items-center justify-center flex-col gap-5">
         <h1 className='text-3xl font-bold'>Register</h1>
         <form onSubmit={handleSignUp} className='flex flex-col gap-5'>
-            <input type="text" name="username" className='bg-gray-200 text-black p-2 rounded-lg outline-none' placeholder='Email'  value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input type="text" name="username" className='bg-gray-200 text-black p-2 rounded-lg outline-none' placeholder='Email'  value={username} onChange={(e) => setUsername(e.target.value)} />
             <input type="email" name="email" className='bg-gray-200 text-black p-2 rounded-lg outline-none' placeholder='Email'  value={email} onChange={(e) => setEmail(e.target.value)} />
             <input type="password" name='password' className='bg-gray-200 text-black p-2 rounded-lg outline-none' placeholder='Password'  value={password} onChange={(e) => setPassword(e.target.value)} />
             <button type="submit" className='p-2 px-4 bg-secondary rounded-lg text-white'>submit</button>
