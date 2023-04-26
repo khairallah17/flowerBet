@@ -45,7 +45,7 @@ export const UserProvider = ({ children }) => {
         data: doc.data(),
         id: doc.id
       }))
-      
+
       return users
     } catch (error) {
       console.log(error.message)
@@ -72,6 +72,19 @@ export const UserProvider = ({ children }) => {
     } catch (err) {
       console.log(err.message)
     }
+
+  }
+
+  const updatebetHistory = async () => {
+
+    const userCollectionRef = collection(db, "users")
+    const userDoc = doc(db, "users", id)
+
+    await updateDoc(userDoc, {test: "test"})
+
+    // const docRef = doc(db, 'users', currentUser.email)
+
+    // getDoc(docRef).then(response => console.log(response)).catch(err => console.log(err.message))
 
   }
 
@@ -127,7 +140,8 @@ export const UserProvider = ({ children }) => {
     addDeposit,
     uploadReceipt,
     getReceiptsByUser,
-    setId
+    setId,
+    updatebetHistory
   }
 
   return (

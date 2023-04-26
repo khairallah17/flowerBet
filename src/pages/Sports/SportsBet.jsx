@@ -25,8 +25,9 @@ const SportsBet = () => {
   const [odd, setOdd] = useState(0)
   const [odd1, setOdd1] = useState(0)
   const [error, seterror] = useState(false)
+  const [team, setTeam] = useState("")
 
-  const { getUserDetails } = userContextHook()
+  const { getUserDetails, updateBetHistory } = userContextHook()
 
   const handleBetClick = (e) => {
     if (e.target.localName == "li")
@@ -41,6 +42,9 @@ const SportsBet = () => {
   const calculateOdd = (e, prc) => {
 
     setDeposit(e)
+
+    console.log(e)
+    console.log(prc)
 
     const result = (parseFloat(prc) * parseInt(e)) - e
 
@@ -79,17 +83,42 @@ const SportsBet = () => {
 
     try {
       
-      const data = await getUserDetails()
-      const response = await data[0].data
-      const id = await data[0].id
+      // const data = await getUserDetails()
+      // const response = await data[0].data
+      // const id = await data[0].id
+
+      await updateBetHistory()
 
       if (response.deposit < deposit)
         toast.error("you do not have much stake to bet :(")
+      else {
+
+
+        const dataObj = {
+          title: `${betData[0].home_team} vs ${betData[0].away_team}`,
+          odd: price ? parseFloat(price) : parseInt(price1),
+          team: price ? price : price1,
+          stake: deposit ? parseInt(deposit) : parseInt(deposit1),
+          win: false
+        }
+
+        console.log(dataObj)
+      }
 
     } catch (err) {
       console.log("EOROROROR ==> ",err.message)
     }
 
+  }
+
+  const update = async () => {
+    try{
+
+      const data = await updateBetHistory()
+
+    } catch (err) {
+      console.log(err.message)
+    }
   }
 
   return (
@@ -284,7 +313,7 @@ const SportsBet = () => {
 
                     <div className="bet-buttons justify-around flex gap-4">
                       <Link onClick={() => setShow1(false)} className='uppercase bg-yellow-500 p-2 px-8'>cancel bet</Link>
-                      <Link className='uppercase bg-blue-500 p-2 px-8'>place bet</Link>
+                      <Link onClick={() => handlePlaceBet()} className='uppercase bg-blue-500 p-2 px-8'>place bet</Link>
                     </div>
 
                   </div>
