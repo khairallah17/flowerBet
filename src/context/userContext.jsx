@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword, sendPasswordResetEmail, signOut } from 
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import { auth, db, storage } from '../config/firebase'
-import { collection, doc, Firestore, getDoc, getDocs, query, setDoc, updateDoc, where } from 'firebase/firestore'
+import { collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from 'firebase/firestore'
 import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'
 
 const UserContext = createContext({})
@@ -18,30 +18,10 @@ export const UserProvider = ({ children }) => {
   const [payDeposit, setPaydeposit] = useState(0)
   const [addDeposit, setAddDeposit] = useState(0)
   const [id, setId] = useState("")
+  const [oddsData ,setOddsData] = useState([])
+  const [activeOdd ,setActiveOdd] = useState([])
 
   const register = async (email, password) => {
-
-    const userRef = doc(`users/${currentUser.uid}`)
-
-    const snapShot = await userRef.get()
-
-    if (!snapShot.exist){
-
-      try {
-        
-        userRef.set({
-          email,
-          deposit: 0,
-          withdrawl: 0,
-          betHistory: [],
-        })
-
-      } catch (err) {
-        console.log("ERROR ==> ",err.message)
-      }
-
-    }
-
     return createUserWithEmailAndPassword(auth, email, password)
   }
 
@@ -79,7 +59,7 @@ export const UserProvider = ({ children }) => {
 
     console.log("here ==> ",id)
 
-      updateDoc(docRef, {deposit: addDeposit}).then(response => console.log(response)).catch(err => console.log(err.message))
+    updateDoc(docRef, {deposit: addDeposit}).then(response => console.log(response)).catch(err => console.log(err.message))
 
   }
 
@@ -97,16 +77,22 @@ export const UserProvider = ({ children }) => {
 
   }
 
-  const updatebetHistory = async () => {
+  const updateBetHistory = async (id, dataObj) => {
 
-    const userCollectionRef = collection(db, "users")
-    const userDoc = doc(db, "users", id)
+    const docRef = doc(db, 'users', id)
+    const docss = await getDoc(docRef)
 
-    await updateDoc(userDoc, {test: "test"})
+    const fullBetHistory = docss.data().betHistory
 
-    // const docRef = doc(db, 'users', currentUser.email)
+    const newBetHistory = [...fullBetHistory, dataObj]
 
-    // getDoc(docRef).then(response => console.log(response)).catch(err => console.log(err.message))
+    try{
+
+      await updateDoc(docRef, {betHistory: newBetHistory})
+
+    } catch (err) {
+      console.log(err.message)
+    }
 
   }
 
@@ -163,7 +149,9 @@ export const UserProvider = ({ children }) => {
     uploadReceipt,
     getReceiptsByUser,
     setId,
-    updatebetHistory
+    updateBetHistory,
+    oddsData,
+    setOddsData
   }
 
   return (

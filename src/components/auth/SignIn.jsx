@@ -14,10 +14,24 @@ const SignIn = () => {
     const [password, setPassword] = useState("")
     const [error, setError] = useState(false)
 
-    const handleSignIn = (e) => {
+    const handleSignIn = async (e) => {
         e.preventDefault()
-        logIn(email, password)
-        navigate("/")
+
+        if (!email || !password)
+          setError("empty fields are required")
+        else {
+
+          try{
+
+            await logIn(email, password)
+            navigate("/")
+
+          } catch (err) {
+            console.log(err.message)
+            setError("Invalid email or password")
+          }
+
+        }
     }
 
   return (
@@ -29,7 +43,8 @@ const SignIn = () => {
               <input type="password" name='password' className='mb-2 bg-gray-200 p-2 rounded-lg outline-none' placeholder='Password'  value={password} onChange={(e) => setPassword(e.target.value)} />
               <Link to="/resetpassword" className='text-white underline cursor-pointer'>forget password !</Link>
             </div>
-            <button type="submit" className='p-2 px-4 bg-secondary hover:bg-primary-light duration-200 rounded-lg text-white' >submit</button>
+              <p className='text-red-500 font-bold'>{error}</p>
+            <button type="submit" className='p-2 px-4 bg-secondary rounded-lg text-white' >submit</button>
             <p className='text-white text-center'>Need Account ? <Link to="/signup" className='text-blue-400'>Register</Link></p>
         </form>
     </div>

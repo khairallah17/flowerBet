@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Layout from '../components/layout/Layout'
-import {data} from '../components/data'
 import Cricket from "../assets/sports/cricket.png"
 import Soccer from "../assets/sports/football.png"
 import AmericanFootball from "../assets/sports/american-football.png"
 import BasketBall from "../assets/sports/basketball.png"
 import Tennis from "../assets/sports/tennis.png"
 import { Link } from 'react-router-dom'
+import userContextHook from '../hooks/userContextHook'
 
 const sports = [{name:"soccer", image: Soccer},
                 {name:"cricket", image: Cricket},
@@ -18,7 +18,29 @@ const Sports = () => {
 
     const [activeSport, setActiveSport] = useState("soccer")
     const [activeimg, setActiveImg] = useState(Soccer)
-    const [search, setSearch] = useState(data.filter(dt => dt.sport_key.includes(activeSport)))
+    const [data, setData] = useState([])
+    const [search, setSearch] = useState(data)
+
+    const { oddsData, setOddsData, setActiveOdd } = userContextHook()
+
+
+    useEffect(() => {
+      
+      const fetchOdds = async () => {
+          const response = await fetch(`https://api.the-odds-api.com/v4/sports/upcoming/odds/?regions=us&markets=h2h&apiKey=1e28c75f0701eddc5f1aba2e9e5db50c`)
+    
+        const dt = await response.json()
+
+        setData(dt)
+        setSearch(dt)
+        setOddsData(dt)
+      }
+
+      fetchOdds()
+ 
+    }, [])
+    
+    
   
     const setActiveSearch = (e) => {
 

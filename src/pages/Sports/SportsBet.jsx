@@ -1,20 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../../components/layout/Layout'
 import { useParams } from 'react-router-dom'
-import { data } from '../../components/data'
 import { Link } from 'react-router-dom'
 import { ChartBarSquareIcon } from "@heroicons/react/24/outline";
-import userContextHook from '../../hooks/userContextHook'
 import toast, { Toaster } from 'react-hot-toast'
+import userContextHook from '../../hooks/userContextHook'
 
 const SportsBet = () => {
 
   const { id } = useParams()
 
-  const betData = data.filter(dt => dt.id == id)
-
+  
   const prices1 = ["1000","5000","50000","100000"]
   const prices2 = ["10000","25000","200000","500000"]
+
+  const { oddsData ,setOddsData, activeOdd, setActiveOdd } = userContextHook()
+  
+  // const [activeOdd, setactiveOdd] = useState([])
+  const filtred = oddsData.filter(dt => dt.id == id)
+
+  console.log("filtred ==> ", filtred)
+
+  // setActiveOdd(filtred)
+
+  console.log(activeOdd)
 
   const [show, setShow] = useState(false)
   const [show1, setShow1] = useState(false)
@@ -83,30 +92,33 @@ const SportsBet = () => {
 
     try {
       
-      // const data = await getUserDetails()
-      // const response = await data[0].data
-      // const id = await data[0].id
-
-      await updateBetHistory()
-
+      
+      const data = await getUserDetails()
+      const response = await data[0].data
+      const id = await data[0].id
+      
       if (response.deposit < deposit)
         toast.error("you do not have much stake to bet :(")
+
       else {
 
 
         const dataObj = {
-          title: `${betData[0].home_team} vs ${betData[0].away_team}`,
+          title: `${filtred[0].home_team} vs ${filtred[0].away_team}`,
           odd: price ? parseFloat(price) : parseInt(price1),
           team: price ? price : price1,
           stake: deposit ? parseInt(deposit) : parseInt(deposit1),
           win: false
         }
 
+        const te = await updateBetHistory(id)
+
+        console.log(id)
         console.log(dataObj)
       }
 
     } catch (err) {
-      console.log("EOROROROR ==> ",err.message)
+      console.log("EOROROROR ==> ",err)
     }
 
   }
@@ -128,7 +140,7 @@ const SportsBet = () => {
           reverseOrder={false}
         />
         <div className="bet-content-title bg-white text-black ">
-          <h1 className='container mx-auto py-5 font-bold text-2xl md:text-4xl'>{ betData[0].home_team } vs { betData[0].away_team }</h1>
+          <h1 className='container mx-auto py-5 font-bold text-2xl md:text-4xl'>{ filtred[0].home_team } vs { filtred[0].away_team }</h1>
           <div className="content-links bg-primary text-white my-3">
             <ul className='flex justify-around flex-wrap'>
               <li className='border flex-grow text-center py-4 bg-slate-800'>
@@ -159,7 +171,7 @@ const SportsBet = () => {
             <div className="bet-home flex sm:flex-row flex-col w-full items-center justify-center md:justify-between gap-3">
               <p className="home-name flex-grow min-w-fit">
                 {
-                  betData[0].home_team
+                  filtred[0].home_team
                 }
               </p>
               <h1 className="odd">To win: <span className='text-green-500 font-bold'>{!odd ? 0 : odd}</span></h1>
@@ -167,10 +179,10 @@ const SportsBet = () => {
               <div className="bet-home-prices flex flex-wrap flex-grow justify-end">
                 <ul className='flex items-center gap-3 flex-wrap justify-center'>
                 {
-                    betData[0].bookmakers.map(({ markets }, key) => 
+                    filtred[0].bookmakers.map(({ markets }, key) => 
                       markets.map(({ outcomes }) => 
                         outcomes.map(({name, price}) => {
-                          if (name == betData[0].home_team)
+                          if (name == filtred[0].home_team)
                           {
                             if (key >= 2)
                               return;
@@ -190,7 +202,7 @@ const SportsBet = () => {
             </div>
 
             <div className={`place-bet md:flex-row items-center gap-3 flex-col w-full justify-between bg-slate-800 p-5 duration-200 ${show ? "flex" : "hidden"}`}>
-                  <h1 className='w-1/3'>{ betData[0].home_team }</h1>
+                  <h1 className='w-1/3'>{ filtred[0].home_team }</h1>
                   <div className="home-bet flex-1 flex flex-col gap-4 justify-center">
 
                     <div className="bet-details flex-wrap flex gap-4 justify-around">
@@ -242,7 +254,7 @@ const SportsBet = () => {
             <div className="bet-home flex sm:flex-row flex-col w-full items-center justify-center md:justify-between gap-3">
               <p className="home-name flex-grow min-w-fit">
                 {
-                  betData[0].away_team
+                  filtred[0].away_team
                 }
               </p>
 
@@ -251,10 +263,10 @@ const SportsBet = () => {
               <div className="bet-home-prices flex flex-wrap flex-grow justify-end">
                 <ul className='flex items-center gap-3 flex-wrap justify-center'>
                   {
-                    betData[0].bookmakers.map(({ markets }, key) => 
+                    filtred[0].bookmakers.map(({ markets }, key) => 
                       markets.map(({ outcomes }) => 
                         outcomes.map(({name, price}) => {
-                          if (name == betData[0].away_team)
+                          if (name == filtred[0].away_team)
                           {
                             if (key >= 2)
                               return;
@@ -274,7 +286,7 @@ const SportsBet = () => {
             </div>
 
             <div className={`place-bet md:flex-row items-center gap-3 flex-col w-full justify-between bg-slate-800 p-5 duration-200 ${show1 ? "flex" : "hidden"}`}>
-                  <h1 className='w-1/3'>{ betData[0].away_team }</h1>
+                  <h1 className='w-1/3'>{ filtred[0].away_team }</h1>
 
                   <div className="home-bet flex-1 flex flex-col gap-4 justify-center">
 

@@ -18,7 +18,9 @@ const ThankYouPage = () => {
 
     useEffect( () => {
 
-        getUserDetails()
+        const fetchId = () => {
+            
+        }
 
         setTimeout(async() => {
 
