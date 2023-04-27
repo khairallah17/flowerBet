@@ -13,7 +13,8 @@ export default {
         },
         secondary: {
           DEFAULT: "#D71468",
-          light: "#d9347b"
+          light: "#d9347b",
+          dark: "#b50e56"
         }
       }
     },

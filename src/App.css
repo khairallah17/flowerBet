@@ -15,4 +15,35 @@
     .shape{
         clip-path: polygon(100.38% 4.17%, 100% 100%, 0.00% 102.09%, 21px 0%);
     }
+
+    @keyframes animated-contact {
+        
+        0%{
+            opacity: 0;
+            right: 0%;
+        }
+
+        50%{
+            right: 110%;
+        }
+
+        70%{
+            opacity: 1;
+            right: 110%;
+        }
+
+        90%{
+            opacity: 1;
+            right: 110%;
+        }
+
+        100%{
+            opacity: 0;
+        }
+
+    }
+
+    .animated-contact{
+        animation: animated-contact 3s linear infinite;
+    }
 }

@@ -18,6 +18,7 @@ import ResetPassword from './pages/ResetPassword'
 import Withdrawl from './pages/Withdrawl'
 import Payment from './pages/Payment'
 import ThankYouPage from './pages/ThankYouPage'
+import Profile from './pages/Profile'
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
           <Route path="ThankYouPage" element={<ThankYouPage/>} />
           
           <Route element={<PrivateRoute/>}>
+            <Route path='profile' element={<Profile/>} />
             <Route path="deposit" element={<Deposit/>} /> 
             <Route element={<BetHistory/>} path="/betHistory" exact/>
             <Route path="withdrawl" element={<Withdrawl/>} />
