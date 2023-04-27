@@ -6,6 +6,7 @@ import {
   XMarkIcon,
  } from "@heroicons/react/24/outline";
 import userContextHook from '../../hooks/userContextHook';
+import Profile from "../../assets/user.png"
 
 const navigation = ["home","sports","Roulette","casino","teen patti"]
 
@@ -72,15 +73,27 @@ const DefaultNavbar = () => {
 
         <div className="nav-buttons flex items-center gap-5">
             
-            <div className="deposit--login flex flex-col items-center gap-1">
-              <Link to={`${currentUser ? "/deposit" : "/login"}`} className='capitalize p-2 px-4 bg-secondary hover:bg-secondary-light duration-200 rounded-lg'>{currentUser ? "deposit" : "Login"}</Link>
+            {/* <div className="deposit--login flex flex-col items-center gap-1">
+              
               <p className={`${currentUser ? "block" : "hidden"} text-center line-clamp-1 font-light max-w-[100px]`}>BAL: {dbData.deposit}</p>
             </div>
 
             <div className="withdrawl--signup flex flex-col items-center gap-1">
-              <Link to={`${currentUser ? '/withdrawl' : '/signUp'}`} className='capitalize p-2 px-4 bg-secondary hover:bg-secondary-light duration-200 rounded-lg'>{ currentUser ? "withdrawl" : "register" }</Link>
+              
               <p className={`${currentUser ? "block" : "hidden"} font-light line-clamp-1 text-center max-w-[100px]`}>EXP: {dbData.withdrawl}</p>
-            </div>
+            </div> */}
+
+            {
+              currentUser ? 
+                <Link to="/profile" className='flex flex-col items-center gap-1'>
+                  <img src={Profile} className="w-16" alt="" />
+                  <p>EXP: {dbData.deposit}</p>
+                </Link> :
+                <div className="nav-buttons flex items-center gap-5">
+                  <Link to="/login" className='capitalize p-2 px-4 bg-secondary hover:bg-secondary-light duration-200 rounded-lg'>Login</Link>
+                  <Link to='/signUp' className='capitalize p-2 px-4 bg-secondary hover:bg-secondary-light duration-200 rounded-lg'>register</Link>
+                </div>
+            }
 
         </div>
 
