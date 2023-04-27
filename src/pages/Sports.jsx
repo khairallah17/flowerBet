@@ -61,6 +61,18 @@ const Sports = () => {
   
     }
 
+    function tConvert (time) {
+      // Check correct time format and split into components
+      time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+    
+      if (time.length > 1) { // If time format correct
+        time = time.slice (1);  // Remove full string match value
+        time[5] = +time[0] < 12 ? ' AM' : ' PM'; // Set AM/PM
+        time[0] = +time[0] % 12 || 12; // Adjust hours
+      }
+      return time.join (''); // return adjusted time or original string
+    }
+
   return (
     <Layout>
         <div className="sports-navigation my-10 bg-white text-black flex-wrap">
@@ -86,45 +98,59 @@ const Sports = () => {
 
                 <Link to={`/sports/${dt.id}`} key={dt.id} className="bet flex w-full justify-between">
                   
-                  <div className="bet-title flex items-center gap-3 w-full justify-between">
+                  <div className="bet-title flex items-center gap-3 w-full justify-between flex-wrap">
 
-                    <div className="flex items-center gap-4 md:w-1/4">
+                    <div className="flex items-center gap-4 md:w-1/4 w-full">
 
                       <img src={ activeimg } className="w-6 h-6" alt="" />
                       
                       <div className="bet-text">
                         <h1 className='text-center md:text-left'>{ dt.home_team } vs { dt.away_team }</h1>
-                        <span className='hidden md:block'>
+                        <span className=''>
                          League: { dt.sport_title.split("- ").join(" ") }
                         </span>
                       </div> 
 
                     </div>
 
-                    <div className="bet-price flex gap-4 md:w-1/2 flex-grow items-center justify-center">
-                      <div className="bet-prices-container flex justify-center md:justify-between flex-wrap items-center md:w-96">
-                      {
-                        dt.bookmakers[0].markets[0].outcomes.map(({ price }, key) => {
-                          if (!key)
-                            return (
-                              <div key={key} className="bet-price w-28 text-center bg-green-500 p-2 px-4">
-                                {price}
-                              </div>
-                            )
-
-                          if (key == 1)
-                              return (
-                                <div key={key} className="bet-price w-28 text-center bg-red-500 p-2 px-4">
-                                  {price}
-                                </div>
-                              )
-                        })
-                      }
+                    <div className="odd-time-container flex items-center gap-4 md:w-[500px] w-full">
+                      <div className="bet-price flex flex-grow items-center justify-center w-fit">
+                        <div className="bet-prices-container flex justify-center gap-4  flex-wrap items-center">
+                        {
+                          dt.bookmakers.slice(0,2).map(book => {
+                            return book.markets[0].outcomes.map(({name, price}, key) => {
+                              if (dt.home_team == name)
+                                return (
+                                  <div key={key} className="bet-price justify-center w-16 h-16 flex items-center text-center bg-green-500 p-2 px-4">
+                                    {price}
+                                  </div>
+                                )
+                            })
+                          })
+                        }
+                        </div>
                       </div>
-                    </div>
 
-                    <div className="bet-time">
-                      { dt.commence_time.split("T").join(" ").split("Z").join("") }
+                      <div className="bet-time">
+                        { tConvert(dt.commence_time.split("T")[1].split("Z").join("")) }
+                      </div>
+
+                      <div className="bet-price flex flex-grow items-center justify-center w-fit">
+                        <div className="bet-prices-container flex justify-center gap-4  flex-wrap items-center">
+                        {
+                          dt.bookmakers.slice(0,2).map(book => {
+                            return book.markets[0].outcomes.map(({ price, name }, key) => {
+                              if (dt.away_team == name)
+                                return (
+                                  <div key={key} className="bet-price w-16 h-16 justify-center flex items-center text-center bg-pink-500 p-2 px-4">
+                                    {price}
+                                  </div>
+                                )
+                            })
+                          })
+                        }
+                        </div>
+                      </div>
                     </div>
 
                   </div>

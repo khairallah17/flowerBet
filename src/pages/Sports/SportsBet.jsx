@@ -19,20 +19,13 @@ const SportsBet = () => {
   // const [activeOdd, setactiveOdd] = useState([])
   const filtred = oddsData.filter(dt => dt.id == id)
 
-  console.log("filtred ==> ", filtred)
-
-  // setActiveOdd(filtred)
-
-  console.log(activeOdd)
 
   const [show, setShow] = useState(false)
   const [show1, setShow1] = useState(false)
+  const [show2, setShow2] = useState(false)
   const [price, setPrice] = useState("")
-  const [price1, setPrice1] = useState("")
   const [deposit, setDeposit] = useState("")
-  const [deposit1, setDeposit1] = useState("")
   const [odd, setOdd] = useState(0)
-  const [odd1, setOdd1] = useState(0)
   const [error, seterror] = useState(false)
   const [team, setTeam] = useState("")
 
@@ -44,16 +37,29 @@ const SportsBet = () => {
     else
       setPrice(e.target.firstChild.nodeValue)
     setShow(true)
-    if (show1)
+    if (show2 || show1)
+    {
       setShow1(false)
+      setShow2(false)
+    }
+  }
+
+  const handleBetClick2 = (e) => {
+    if (e.target.localName == "li")
+      setPrice(e.target.innerText)
+    else
+      setPrice(e.target.firstChild.nodeValue)
+    setShow2(true)
+    if (show || show1)
+    {
+      setShow(false)
+      setShow1(false)
+    }
   }
 
   const calculateOdd = (e, prc) => {
 
     setDeposit(e)
-
-    console.log(e)
-    console.log(prc)
 
     const result = (parseFloat(prc) * parseInt(e)) - e
 
@@ -63,32 +69,35 @@ const SportsBet = () => {
 
   const calculateOdd1 = (e, prc) => {
 
-    setDeposit1(e)
+    setDeposit(e)
 
     const result = (parseFloat(prc) * parseInt(e)) - e
 
-    setOdd1(result)
+    setOdd(result)
 
   }
 
   useEffect(() => {
 
     calculateOdd(deposit, price)
-    calculateOdd1(deposit1, price1)
+    calculateOdd1(deposit, price)
 
-  },[deposit, deposit1])
+  },[deposit])
 
   const handleBetClick1 = (e) => {
     if (e.target.localName == "li")
-      setPrice1(e.target.innerText)
+      setPrice(e.target.innerText)
     else
-      setPrice1(e.target.firstChild.nodeValue)
+      setPrice(e.target.firstChild.nodeValue)
     setShow1(true)
-    if (show)
+    if (show || show2)
+    {
+      setShow2(false)
       setShow(false)
+    }
   } 
 
-  const handlePlaceBet = async () => {
+  const handlePlaceBet = async (e) => {
 
     try {
       
@@ -105,32 +114,19 @@ const SportsBet = () => {
 
         const dataObj = {
           title: `${filtred[0].home_team} vs ${filtred[0].away_team}`,
-          odd: price ? parseFloat(price) : parseInt(price1),
-          team: price ? price : price1,
-          stake: deposit ? parseInt(deposit) : parseInt(deposit1),
+          odd: parseFloat(price),
+          team: e.target.getAttribute("team"),
+          stake: parseInt(deposit),
           win: false
         }
 
-        const te = await updateBetHistory(id)
-
-        console.log(id)
-        console.log(dataObj)
+        await updateBetHistoryAndDeposit(id, dataObj)
       }
 
     } catch (err) {
       console.log("EOROROROR ==> ",err)
     }
 
-  }
-
-  const update = async () => {
-    try{
-
-      const data = await updateBetHistory()
-
-    } catch (err) {
-      console.log(err.message)
-    }
   }
 
   return (
@@ -187,7 +183,7 @@ const SportsBet = () => {
                             if (key >= 2)
                               return;
                             return (
-                              <li key={key} onClick={handleBetClick} className={`${key == 1? "bg-red-500" : "bg-green-500"} cursor-pointer w-12 h-12 flex justify-center items-center `}>
+                              <li key={key} onClick={handleBetClick} className={`${key == 1? "bg-pink-500" : "bg-green-500"} cursor-pointer w-12 h-12 flex justify-center items-center `}>
                                 <Link>{price}</Link>
                               </li>
                             )
@@ -240,7 +236,7 @@ const SportsBet = () => {
 
                     <div className="bet-buttons justify-around flex gap-4">
                       <Link onClick={() => setShow(false)} className='uppercase bg-yellow-500 p-2 px-8'>cancel bet</Link>
-                      <button onClick={handlePlaceBet} className='uppercase bg-blue-500 p-2 px-8'>place bet</button>
+                      <button onClick={handlePlaceBet} team={filtred[0].home_team} className='uppercase bg-blue-500 p-2 px-8'>place bet</button>
                     </div>
 
                   </div>
@@ -258,7 +254,7 @@ const SportsBet = () => {
                 }
               </p>
 
-              <p>To Win: <span className='font-bold text-green-500'>{!odd1 ? 0 : odd1}</span></p>
+              <p>To Win: <span className='font-bold text-green-500'>{!odd ? 0 : odd}</span></p>
 
               <div className="bet-home-prices flex flex-wrap flex-grow justify-end">
                 <ul className='flex items-center gap-3 flex-wrap justify-center'>
@@ -271,7 +267,90 @@ const SportsBet = () => {
                             if (key >= 2)
                               return;
                             return (
-                              <li key={key} onClick={handleBetClick1} className={`${key == 1? "bg-red-500" : "bg-green-500"} cursor-pointer w-12 h-12 flex justify-center items-center `}>
+                              <li key={key} onClick={handleBetClick} className={`${key == 1? "bg-pink-500" : "bg-green-500"} cursor-pointer w-12 h-12 flex justify-center items-center `}>
+                                <Link>{price}</Link>
+                              </li>
+                            )
+                          }
+                        })
+                      )
+                    )
+                  }
+                </ul>
+              </div>
+
+            </div>
+
+            <div className={`place-bet md:flex-row items-center gap-3 flex-col w-full justify-between bg-slate-800 p-5 duration-200 ${show2 ? "flex" : "hidden"}`}>
+                  <h1 className='w-1/3'>{ filtred[0].away_team }</h1>
+
+                  <div className="home-bet flex-1 flex flex-col gap-4 justify-center">
+
+                    <div className="bet-details flex-wrap flex gap-4 justify-around">
+                      <div className="home-bet-left flex flex-col gap-4">
+                        <input className='bg-white p-2 text-black' type="text" name="price" disabled={true} id="" value={price} />
+                        <div className="prices-box flex gap-4 flex-wrap text-center">
+                          {
+
+                            prices1.map((prc, key) => (
+                              <div onClick={(e) => calculateOdd1(e.target.innerText, price)} key={key} className="cursor-pointer w-full p-2 bg-secondary price">
+                                  {prc}
+                              </div>
+                            ))
+
+                          }
+                        </div>
+                      </div>
+
+                      <div className="home-bet-right flex flex-col gap-4">
+                      <input className='bg-white p-2 outline-none text-black' type="text" name="price" disabled={false} id="" onChange={(e) => setDeposit(e.target.value)
+                      } value={deposit} />
+                        <div className="flex-wrap text-center prices-box flex gap-4">
+                          {
+
+                            prices1.map((prc, key) => (
+                              <div key={key} onClick={(e) => calculateOdd1(e.target.innerText, price)} className="cursor-pointer w-full p-2 bg-secondary price">
+                                  {prc}
+                              </div>
+                            ))
+
+                          }
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bet-buttons justify-around flex gap-4">
+                      <button onClick={() => setShow2(false)} className='uppercase bg-yellow-500 p-2 px-8'>cancel bet</button>
+                      <button onClick={(e) => handlePlaceBet(e)} team={filtred[0].away_team} className='uppercase bg-blue-500 p-2 px-8'>place bet</button>
+                    </div>
+
+                  </div>
+
+                </div>
+
+          </div>
+
+          <div className="bet-details flex flex-col gap-3 mb-4">
+
+            <div className="bet-home flex sm:flex-row flex-col w-full items-center justify-center md:justify-between gap-3">
+              <p className="home-name flex-grow min-w-fit">
+                Draw
+              </p>
+
+              <p>To Win: <span className='font-bold text-green-500'>{!odd ? 0 : odd}</span></p>
+
+              <div className="bet-home-prices flex flex-wrap flex-grow justify-end">
+                <ul className='flex items-center gap-3 flex-wrap justify-center'>
+                  {
+                    filtred[0].bookmakers.map(({ markets }, key) => 
+                      markets.map(({ outcomes }) => 
+                        outcomes.map(({name, price}) => {
+                          if (name == "Draw")
+                          {
+                            if (key >= 2)
+                              return;
+                            return (
+                              <li key={key} onClick={handleBetClick1} className={`${key == 1? "bg-pink-500" : "bg-green-500"} cursor-pointer w-12 h-12 flex justify-center items-center `}>
                                 <Link>{price}</Link>
                               </li>
                             )
@@ -286,51 +365,51 @@ const SportsBet = () => {
             </div>
 
             <div className={`place-bet md:flex-row items-center gap-3 flex-col w-full justify-between bg-slate-800 p-5 duration-200 ${show1 ? "flex" : "hidden"}`}>
-                  <h1 className='w-1/3'>{ filtred[0].away_team }</h1>
+              <h1 className='w-1/3'>{ filtred[0].away_team }</h1>
 
-                  <div className="home-bet flex-1 flex flex-col gap-4 justify-center">
+              <div className="home-bet flex-1 flex flex-col gap-4 justify-center">
 
-                    <div className="bet-details flex-wrap flex gap-4 justify-around">
-                      <div className="home-bet-left flex flex-col gap-4">
-                        <input className='bg-white p-2 text-black' type="text" name="price" disabled={true} id="" value={price1} />
-                        <div className="prices-box flex gap-4 flex-wrap text-center">
-                          {
+                <div className="bet-details flex-wrap flex gap-4 justify-around">
+                  <div className="home-bet-left flex flex-col gap-4">
+                    <input className='bg-white p-2 text-black' type="text" name="price" disabled={true} id="" value={price} />
+                    <div className="prices-box flex gap-4 flex-wrap text-center">
+                      {
 
-                            prices1.map((prc, key) => (
-                              <div onClick={(e) => calculateOdd1(e.target.innerText, price1)} key={key} className="cursor-pointer w-full p-2 bg-secondary price">
-                                  {prc}
-                              </div>
-                            ))
+                        prices1.map((prc, key) => (
+                          <div onClick={(e) => calculateOdd1(e.target.innerText, price)} key={key} className="cursor-pointer w-full p-2 bg-secondary price">
+                              {prc}
+                          </div>
+                        ))
 
-                          }
-                        </div>
-                      </div>
-
-                      <div className="home-bet-right flex flex-col gap-4">
-                      <input className='bg-white p-2 outline-none text-black' type="text" name="price" disabled={false} id="" onChange={(e) => setDeposit1(e.target.value)
-                      } value={deposit1} />
-                        <div className="flex-wrap text-center prices-box flex gap-4">
-                          {
-
-                            prices1.map((prc, key) => (
-                              <div key={key} onClick={(e) => calculateOdd1(e.target.innerText, price1)} className="cursor-pointer w-full p-2 bg-secondary price">
-                                  {prc}
-                              </div>
-                            ))
-
-                          }
-                        </div>
-                      </div>
+                      }
                     </div>
-
-                    <div className="bet-buttons justify-around flex gap-4">
-                      <Link onClick={() => setShow1(false)} className='uppercase bg-yellow-500 p-2 px-8'>cancel bet</Link>
-                      <Link onClick={() => handlePlaceBet()} className='uppercase bg-blue-500 p-2 px-8'>place bet</Link>
-                    </div>
-
                   </div>
 
+                  <div className="home-bet-right flex flex-col gap-4">
+                  <input className='bg-white p-2 outline-none text-black' type="text" name="price" disabled={false} id="" onChange={(e) => setDeposit(e.target.value)
+                  } value={deposit} />
+                    <div className="flex-wrap text-center prices-box flex gap-4">
+                      {
+
+                        prices1.map((prc, key) => (
+                          <div key={key} onClick={(e) => calculateOdd1(e.target.innerText, price)} className="cursor-pointer w-full p-2 bg-secondary price">
+                              {prc}
+                          </div>
+                        ))
+
+                      }
+                    </div>
+                  </div>
                 </div>
+
+                <div className="bet-buttons justify-around flex gap-4">
+                  <button onClick={() => setShow1(false)} className='uppercase bg-yellow-500 p-2 px-8'>cancel bet</button>
+                  <button onClick={() => handlePlaceBet()} team="Draw" className='uppercase bg-blue-500 p-2 px-8'>place bet</button>
+                </div>
+
+              </div>
+
+            </div>
 
           </div>
 
