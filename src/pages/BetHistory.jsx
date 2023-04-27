@@ -38,7 +38,7 @@ const BetHistory = () => {
                 <h1 className='text-xl max-w-xs w-[320px] line-clamp-1'>{title}</h1>
                 <span className='w-[100px] line-clamp-1'>{team}</span>
                 <span>{odd}</span>
-                <span className={`${win ? "bg-green-500" : "bg-red-500"} p-2`}>{win ? odd*stake : stake}</span>
+                <span className={`${win ? "bg-green-500" : "bg-red-500"} p-2`}>{win ? odd*stake-stake : stake}</span>
               </div>
             ))
           }
