@@ -30,7 +30,7 @@ const Deposit = () => {
             <input className='text-black outline-none p-2' type="number" name="deposit" id="" value={addDeposit} onChange={(e) => setAddDeposit(parseInt(e.target.value))} />
             <p className='text-red-500 font-bold capitalize'>{error}</p>
             <p className='font-light capitalize'>Minimum deposit amount is 100</p>
-            <button onClick={handleSubmitDeposit} className='p-2 px-8 bg-yellow-500 hover:bg-yellow-400 duration-200 w-fit'>Deposit</button>
+            <button onClick={handleSubmitDeposit} className='p-2 px-8 bg-yellow-500 hover:bg-yellow-600 duration-200 rounded-xl w-fit'>Deposit</button>
         </div>
     </Layout>
   )
