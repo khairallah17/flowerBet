@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { auth, db, storage } from '../config/firebase'
 import { collection, doc, getDoc, getDocs, query, setDoc, updateDoc, where } from 'firebase/firestore'
 import { ref, uploadBytes, listAll, getDownloadURL } from 'firebase/storage'
+import { Timestamp, serverTimestamp } from 'firebase/firestore'
 
 const UserContext = createContext({})
 
@@ -57,9 +58,32 @@ export const UserProvider = ({ children }) => {
   const updateDeposit = async (id) => {
     const docRef = doc(db, 'users', id)
 
-    console.log("here ==> ",id)
+    updateDoc(docRef, {deposit: addDeposit})
+        .then(response => console.log(response))
+        .catch(err => console.log(err.message))
 
-    updateDoc(docRef, {deposit: addDeposit}).then(response => console.log(response)).catch(err => console.log(err.message))
+  }
+
+  const withdrawFunds = async (id, wtd) => {
+
+    const userRef = doc(db, "users", id)
+
+    try{
+      
+      const request = await getUserDetails()
+      const response = await request[0].data.withdrawlHistory 
+
+      const withdrawlArr = [...response, {
+        amount: wtd,
+        status: false,
+        date: Timestamp.fromDate(new Date())
+      }]
+
+      await updateDoc(userRef, {withdrawlHistory: withdrawlArr})
+
+    } catch(err) {
+      console.log(err)
+    }
 
   }
 
@@ -77,7 +101,7 @@ export const UserProvider = ({ children }) => {
 
   }
 
-  const updateBetHistory = async (id, dataObj) => {
+  const updateBetHistoryAndDeposit = async (id, dataObj) => {
 
     const docRef = doc(db, 'users', id)
     const docss = await getDoc(docRef)
@@ -86,9 +110,15 @@ export const UserProvider = ({ children }) => {
 
     const newBetHistory = [...fullBetHistory, dataObj]
 
+    console.log("new bet data ==> ", dataObj)
+
+    console.log(newBetHistory)
+
     try{
 
       await updateDoc(docRef, {betHistory: newBetHistory})
+      awai
+      navigate("/betHistory")
 
     } catch (err) {
       console.log(err.message)
@@ -106,10 +136,6 @@ export const UserProvider = ({ children }) => {
 
     response.items.forEach(item => getDownloadURL(item).then(url => images.push(url)))
 
-    console.log(images)
-        
-    // return images
-
   }
 
   const uploadReceipt = async (image) => {
@@ -119,6 +145,12 @@ export const UserProvider = ({ children }) => {
     uploadBytes(imageRef, image)
         .then(response => console.log("success"))
         .catch(err => console.log(err.message))
+
+  }
+
+  const updateUserInfo = async (id, infoObj) => {
+
+    const userRef = collection(db, 'users', id)
 
   }
 
@@ -149,9 +181,10 @@ export const UserProvider = ({ children }) => {
     uploadReceipt,
     getReceiptsByUser,
     setId,
-    updateBetHistory,
+    updateBetHistoryAndDeposit,
     oddsData,
-    setOddsData
+    setOddsData,
+    withdrawFunds
   }
 
   return (
