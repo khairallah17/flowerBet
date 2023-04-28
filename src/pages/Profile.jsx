@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 
 const Profile = () => {
 
-  const { getUserDetails, updateUserInfo } = userContextHook()
+  const { getUserDetails, updateUserInfo, logout } = userContextHook()
   const [userData, setUserData] = useState({})
   const [email, setEmail] = useState("")
   const [username, setUsername] = useState("")
@@ -56,6 +56,7 @@ const Profile = () => {
           <div className="personal-info flex gap-5 items-center flex-grow">
             <img src={UserImg} alt="" className="w-20" />
             <h1 className='text-4xl font-bold'>Update Your information</h1>
+            <button type="button" onClick={logout} >logout</button>
           </div>
 
           <div className="deposit-history flex-grow">
