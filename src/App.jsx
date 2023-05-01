@@ -25,6 +25,7 @@ import UsersList from './pages/Admin/UsersList'
 import Ledger from './pages/Admin/Ledger'
 import Settings from './pages/Admin/Settings'
 import MatchNotification from './pages/Admin/MatchNotification'
+import AdminLogin from './pages/Admin/AdminLogin'
 
 function App() {
 
@@ -58,11 +59,12 @@ function App() {
           <AdminProvider>
             <Routes>
               <Route path='/admin'>
-                <Route path="dashboard" element={<Dashboard/>} />
-                <Route path='userdetails' element={<UsersList/>} />
-                <Route path="ledger" element={<Ledger />} />
-                <Route path="settings" element={<Settings/>} />
-                <Route path='matchnotification' element={<MatchNotification/>} />
+                <Route path="" element={<AdminLogin/>} />
+
+                <Route path="dashboard" element={<Dashboard/>}>
+
+                </Route>
+
               </Route>
             </Routes>
           </AdminProvider>

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { createContext } from 'react'
 import { db, auth } from '../config/firebase'
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { getDoc, doc, collection, getDocs, deleteDoc, updateDoc } from 'firebase/firestore'
-import { getAuth } from 'firebase/auth'
 
 const AdminContext = createContext({})
 
@@ -41,7 +41,7 @@ export const AdminProvider = ({ children }) => {
     const updateUserInfo = async (id, userInfo) => {
 
         const userRef = doc(db, "users", id)
-
+ 
         try {
             
             await updateDoc(userRef, userInfo)
@@ -68,12 +68,26 @@ export const AdminProvider = ({ children }) => {
 
     }
 
+    const AdminLogin = (email, password) => {
+        console.log(email)
+        console.log(password)
+        console.log("AdminLogin ==> Here")
+        return signInWithEmailAndPassword(auth, email, password)
+    }
+
+    const adminLogout = () => {
+        return signOut(auth)
+    }
+    
+
     const value ={
         addNewUser,
         getAllUsers,
         removeUser,
         updateUserInfo,
-        getUserById
+        getUserById,
+        AdminLogin,
+        adminLogout
     }
 
   return (

@@ -1,24 +1,42 @@
 import React from 'react'
 import { 
     UserIcon,
-    GlobeAltIcon,
-    EyeIcon,
     Cog6ToothIcon,
-    TrophyIcon,
-    ChatBubbleOvalLeftIcon,
     HomeIcon } from "@heroicons/react/24/outline";
+import { BiMoneyWithdraw } from "react-icons/bi"
+import { RiLuggageDepositLine } from "react-icons/ri"
+import { MdOutlineLogout } from "react-icons/md"
 import { Link } from 'react-router-dom';
+import adminContextHook from '../../hooks/adminContextHook';
+import { useNavigate } from 'react-router-dom';
 
     const classCircles = " w-72 h-72 border-[16px] border-white rounded-full flex items-center justify-center"
 
-    const elements =[   { text: "user details", icon:<UserIcon className='w-44 h-44 text-white '/>, color: `${classCircles} bg-[#17A2B8]`  },
-                        { text: "sport's betting", icon: <GlobeAltIcon className='w-44 h-44 text-white '/>, color: `${classCircles} bg-[#DC3545]` },
-                        { text: "ledger", icon: <EyeIcon className='w-44 h-44 text-white '/>, color: `${classCircles} bg-[#E83E8C]` },
-                        { text: "settings", icon: <Cog6ToothIcon className='w-44 h-44 text-white '/>, color: `${classCircles} bg-[#007BFF]` },
-                        { text: "match notification", icon: <TrophyIcon className='w-44 h-44 text-white '/>, color: `${classCircles} bg-[#28A745]` },
-                        { text: "logout", icon:<ChatBubbleOvalLeftIcon className='w-44 h-44 text-white '/>, color: `${classCircles} bg-[#6C757D]`  }]
-
+    
 const Dashboard = () => {
+        
+    const { adminLogout } = adminContextHook()
+
+    const navigate = useNavigate()
+
+    const logout = async () => {
+
+        try{
+
+            await adminLogout()
+            navigate("/admin")
+
+        } catch (error) {
+            console.log(err.message)
+        }
+
+    }
+    
+    const elements =[   { text: "user details", icon:<UserIcon className='w-44 h-44 text-white '/>, color: `${classCircles} bg-[#17A2B8]`, onClick: ""  },
+                            { text: "Withdrawls", icon: <BiMoneyWithdraw className='w-44 h-44 text-white '/>, color: `${classCircles} bg-[#DC3545]`, onClick: "" },
+                            { text: "Deposits", icon: <RiLuggageDepositLine className='w-44 h-44 text-white '/>, color: `${classCircles} bg-[#E83E8C]`, onClick: "" },
+                            { text: "settings", icon: <Cog6ToothIcon className='w-44 h-44 text-white '/>, color: `${classCircles} bg-[#007BFF]`, onClick: "" }]
+
   return (
     <div className=' bg-slate-200 h-screen text-black p-10'>
 
@@ -33,8 +51,8 @@ const Dashboard = () => {
 
             {
 
-                elements.map(ele => (
-                    <Link to={`/admin/${ele.text.split(" ").join("")}`} className="userDetails flex items-center flex-col w-fit gap-4">
+                elements.map((ele, key) => (
+                    <Link key={key} to={`/admin/${ele.text.split(" ").join("")}`} className="userDetails flex items-center flex-col w-fit gap-4">
                         <div className={ele.color}>
                             {ele.icon}
                         </div>
@@ -43,6 +61,13 @@ const Dashboard = () => {
                 ))
 
             }
+
+            <Link onClick={logout} className="userDetails flex items-center flex-col w-fit gap-4">
+                <div className={` ${classCircles} bg-[#6C757D]`}>
+                    <MdOutlineLogout className='w-44 h-44 text-white '/>
+                </div>
+                <p className='capitalize text-2xl text-blue-500'>logout</p>
+            </Link>
 
         </div>
 
