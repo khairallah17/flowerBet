@@ -24,27 +24,27 @@ const Layout = ({ children }) => {
             <div className="bar w-full sticky bottom-0 bg-slate-800 rounded-t-[40px] h-20 flex justify-between ">
             
             <Link to="/" className="homeicon flex flex-col rounded-t-full bg-slate-800 w-1/5 h-full items-center justify-center">
-              <AiOutlineHome className='text-white w-12 h-12' />
+              <AiOutlineHome className='text-white w-6 md:w-12 h-6 md:h-12' />
               <p className=''>Home</p>
             </Link>
 
             <Link to="/sports" className="homeicon flex flex-col rounded-b-full bg-slate-600  w-1/5 h-full items-center justify-center">
-              <MdOutlineSportsFootball className='text-white w-12 h-12' />
+              <MdOutlineSportsFootball className='text-white w-6 md:w-12 h-6 md:h-12' />
               <p className=''>Sports</p>
             </Link>
 
             <Link to="/roulette" className="homeicon flex flex-col rounded-t-full bg-slate-800 w-1/5 h-full items-center justify-center">
-              <MdOutlineSportsFootball className='text-white w-12 h-12' />
+              <MdOutlineSportsFootball className='text-white w-6 md:w-12 h-6 md:h-12' />
               <p className=''>Roulette</p>
             </Link>
 
             <Link to="/casino" className="homeicon flex flex-col rounded-b-full bg-slate-600  w-1/5 h-full items-center justify-center">
-              <MdOutlineCasino className='text-white w-12 h-12' />
+              <MdOutlineCasino className='text-white w-6 md:w-12 h-6 md:h-12' />
               <p className=''>Casino</p>
             </Link>
 
             <Link to="/teenpatti" className="homeicon flex flex-col rounded-t-full bg-slate-800 w-1/5 h-full items-center justify-center">
-              <SiGamedeveloper className='text-white w-12 h-12' />
+              <SiGamedeveloper className='text-white w-6 md:w-12 h-6 md:h-12' />
               <p className=''>Teen Patti</p>
             </Link>
             </div>
