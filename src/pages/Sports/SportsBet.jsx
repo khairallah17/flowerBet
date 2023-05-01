@@ -131,12 +131,14 @@ const SportsBet = () => {
 
   return (
     <Layout>
-        <Toaster
+    
+      <div className="h-full">
+      <Toaster
           position="top-center"
           reverseOrder={false}
         />
         <div className="bet-content-title bg-white text-black ">
-          <h1 className='container mx-auto py-5 font-bold text-2xl md:text-4xl'>{ filtred[0].home_team } vs { filtred[0].away_team }</h1>
+          <h1 className='container mx-auto py-5 font-bold text-2xl md:text-4xl px-3'>{ filtred[0].home_team } vs { filtred[0].away_team }</h1>
           <div className="content-links bg-primary text-white my-3">
             <ul className='flex justify-around flex-wrap'>
               <li className='border flex-grow text-center py-4 bg-slate-800'>
@@ -149,10 +151,10 @@ const SportsBet = () => {
           </div>
         </div>
 
-        <div className="container mx-auto my-5">
+        <div className="container mx-auto my-5 px-5">
           
-          <div className='capitalize flex items-center gap-3 text-xl md:justify-between w-full mb-5 justify-between'>
-            <div className="mtch-odds flex gap-3 items-center">
+          <div className='capitalize flex items-center gap-3 text-xl w-full mb-5 justify-between'>
+            <div className="match-odds flex gap-3 items-center">
               <ChartBarSquareIcon className="h-8 w-8 text-white" />
               match odds
             </div>
@@ -414,6 +416,8 @@ const SportsBet = () => {
           </div>
 
         </div>
+      </div>
+
     </Layout>
   )
 }

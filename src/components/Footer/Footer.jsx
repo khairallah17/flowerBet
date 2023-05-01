@@ -17,9 +17,9 @@ const footerNav = ["privacy policy","rules and regulations","terms and condition
 
 const Footer = () => {
   return (
-    <div className='flex flex-wrap p-10 text-center md:text-left bg-primary-light border-t-2 mt-auto'>
+    <div className='flex flex-wrap p-10 text-left bg-primary-light border-t-2 mt-auto'>
 
-        <div className="footer1 flex flex-col gap-5 w-full md:w-1/3">
+        <div className="footer1 flex flex-col gap-5 w-full">
 
             <Link to="/" ><img src={Logo} alt="" className='w-48' /></Link>
             
@@ -34,7 +34,7 @@ const Footer = () => {
 
         </div>
 
-        <div className="footer2 w-full md:w-1/3">
+        <div className="footer2 w-full mt-12">
             
             <h1 className='text-2xl mt-3 font-bold mb-12'>Features</h1>
 
@@ -51,9 +51,9 @@ const Footer = () => {
 
         </div>
 
-        <div className="footer3 w-full md:w-1/3">
+        <div className="footer3 w-full mt-12">
             
-            <h1 className='text-2xl mt-3 font-bold mb-12'>Features</h1>
+            <h1 className='text-2xl mt-3 font-bold mb-12'>UseFull Links</h1>
 
             <ul className='flex gap-5 flex-col w-full'>
                 {

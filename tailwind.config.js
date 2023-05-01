@@ -16,7 +16,10 @@ export default {
           light: "#d9347b",
           dark: "#b50e56"
         }
-      }
+      },
+       backgroundImage: {
+        'home': "url('/src/assets/background-home.jpg')"
+       }
     },
   },
   plugins: [],

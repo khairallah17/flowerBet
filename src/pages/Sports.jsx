@@ -40,26 +40,14 @@ const Sports = () => {
  
     }, [])
     
-    
-  
-    const setActiveSearch = (e) => {
+    useEffect(() => {
 
-      setActiveSport(e.target.lastChild.nodeValue)
-      const img = sports.filter(sp => {
-        if (sp.name == activeSport)
-        {
-          console.log("here")
-          return sp.image
-        }
-      })
-      
-      setActiveImg(img[0].image)
-      
       const filtredData = data.filter(dt => dt.sport_key.includes(activeSport))
-  
       setSearch(filtredData)
-  
-    }
+
+    
+    }, [search])
+
 
     function tConvert (time) {
       // Check correct time format and split into components
@@ -75,93 +63,94 @@ const Sports = () => {
 
   return (
     <Layout>
-        <div className="sports-navigation my-10 bg-white text-black flex-wrap">
-            <ul className='container mx-auto flex w-full items-center justify-between flex-wrap'>
+    
+      <div className="sports-navigation mb-10 top-0 bg-white md:sticky text-black flex-wrap w-full">
+            <ul className='container mx-auto flex w-full z-10 items-center justify-between flex-wrap'>
             {
               sports.map(({name, image}, key) => (
-                <li key={key} className={`${activeSport == name ? "bg-primary text-white" : ""} cursor-pointer flex gap-2 py-5 w-full md:w-1/5 items-center justify-center duration-200 capitalize hover:text-white hover:bg-primary  `} onClick={(e) => setActiveSearch(e)}>
+                <li key={key} className={`${activeSport == name ? "bg-primary text-white" : ""} cursor-pointer flex gap-2 py-5 w-1/5 items-center justify-center duration-200 capitalize hover:text-white hover:bg-primary  `} onClick={() => setActiveSport(name)}>
                   <img src={image} alt="" className='w-6 h-6' />
-                  {name}
+                  {/* {name} */}
                 </li>   
               ))
             }
             </ul>
         </div>
 
-      <div className="container mx-auto my-10">
+        <div className="container mx-auto my-10 px-3">
 
-          
-          <div className="bettings flex flex-col gap-5 h-96 overflow-scroll">
+            
+            <div className="bettings flex flex-col gap-5 h-full overflow-scroll">
 
-            {
-              search.map((dt, key) => (
+              {
+                search.length == 0 ? <h1 className='text-center text-3xl font-bold'>No Matches Available</h1> :                 search.map((dt, key) => (
 
-                <Link to={`/sports/${dt.id}`} key={dt.id} className="bet flex w-full justify-between">
-                  
-                  <div className="bet-title flex items-center gap-3 w-full justify-between flex-wrap">
+                  <Link to={`/sports/${dt.id}`} key={dt.id} className="bet flex w-full justify-between">
+                    
+                    <div className="bet-title flex items-center gap-3 w-full justify-between flex-wrap">
 
-                    <div className="flex items-center gap-4 md:w-1/4 w-full">
+                      <div className="flex items-center gap-4 w-full px-5">
 
-                      <img src={ activeimg } className="w-6 h-6" alt="" />
-                      
-                      <div className="bet-text">
-                        <h1 className='text-center md:text-left'>{ dt.home_team } vs { dt.away_team }</h1>
-                        <span className=''>
-                         League: { dt.sport_title.split("- ").join(" ") }
-                        </span>
-                      </div> 
+                        
+                        <div className="bet-text">
+                          <h1 className='text-center md:text-left'>{ dt.home_team } vs { dt.away_team }</h1>
+                          <span className=''>
+                          League: { dt.sport_title.split("- ").join(" ") }
+                          </span>
+                        </div> 
 
-                    </div>
+                      </div>
 
-                    <div className="odd-time-container flex items-center gap-4 md:w-[500px] w-full">
-                      <div className="bet-price flex flex-grow items-center justify-center w-fit">
-                        <div className="bet-prices-container flex justify-center gap-4  flex-wrap items-center">
-                        {
-                          dt.bookmakers.slice(0,2).map(book => {
-                            return book.markets[0].outcomes.map(({name, price}, key) => {
-                              if (dt.home_team == name)
-                                return (
-                                  <div key={key} className="bet-price justify-center w-16 h-16 flex items-center text-center bg-green-500 p-2 px-4">
-                                    {price}
-                                  </div>
-                                )
+                      <div className="odd-time-container flex items-center gap-4 md:w-[500px] w-full">
+                        <div className="bet-price flex flex-grow items-center justify-center w-fit">
+                          <div className="bet-prices-container flex justify-center gap-4  flex-wrap items-center">
+                          {
+                            dt.bookmakers.slice(0,2).map(book => {
+                              return book.markets[0].outcomes.map(({name, price}, key) => {
+                                if (dt.home_team == name)
+                                  return (
+                                    <div key={key} className="bet-price justify-center w-16 h-16 flex items-center text-center bg-green-500 p-2 px-4">
+                                      {price}
+                                    </div>
+                                  )
+                              })
                             })
-                          })
-                        }
+                          }
+                          </div>
+                        </div>
+
+                        <div className="bet-time">
+                          { tConvert(dt.commence_time.split("T")[1].split("Z").join("")) }
+                        </div>
+
+                        <div className="bet-price flex flex-grow items-center justify-center w-fit">
+                          <div className="bet-prices-container flex justify-center gap-4  flex-wrap items-center">
+                          {
+                            dt.bookmakers.slice(0,2).map(book => {
+                              return book.markets[0].outcomes.map(({ price, name }, key) => {
+                                if (dt.away_team == name)
+                                  return (
+                                    <div key={key} className="bet-price w-16 h-16 justify-center flex items-center text-center bg-pink-500 p-2 px-4">
+                                      {price}
+                                    </div>
+                                  )
+                              })
+                            })
+                          }
+                          </div>
                         </div>
                       </div>
 
-                      <div className="bet-time">
-                        { tConvert(dt.commence_time.split("T")[1].split("Z").join("")) }
-                      </div>
-
-                      <div className="bet-price flex flex-grow items-center justify-center w-fit">
-                        <div className="bet-prices-container flex justify-center gap-4  flex-wrap items-center">
-                        {
-                          dt.bookmakers.slice(0,2).map(book => {
-                            return book.markets[0].outcomes.map(({ price, name }, key) => {
-                              if (dt.away_team == name)
-                                return (
-                                  <div key={key} className="bet-price w-16 h-16 justify-center flex items-center text-center bg-pink-500 p-2 px-4">
-                                    {price}
-                                  </div>
-                                )
-                            })
-                          })
-                        }
-                        </div>
-                      </div>
                     </div>
 
-                  </div>
+                  </Link>
+                ))
+              }
 
-                </Link>
-              ))
-            }
+            </div>
 
-          </div>
+        </div>
 
-      </div>
     </Layout>
   )
 }

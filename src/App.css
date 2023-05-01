@@ -10,6 +10,9 @@
     body{
         @apply bg-primary;
         @apply text-white;
+        @apply md:bg-home;
+        @apply bg-cover;
+        @apply bg-blend-overlay;
     }
 
     .shape{
@@ -45,5 +48,16 @@
 
     .animated-contact{
         animation: animated-contact 3s linear infinite;
+    }
+
+    /* For Webkit-based browsers (Chrome, Safari and Opera) */
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* For IE, Edge and Firefox */
+    .scrollbar-hide {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
     }
 }
